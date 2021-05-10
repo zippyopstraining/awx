@@ -1,0 +1,20 @@
+---
+- hosts: all
+ vars:
+ tomcat_version: 8.5.23
+ tomcat_permissions_production: True
+ tomcat_users:
+ - username: "tomcat-user"
+ password: "zippyops"
+ roles: " tomcat,admin,manager,manager-gui"
+ roles:
+ - role: zaxos.tomcat-ansible-role
+ tasks:
+ - name: Download war file from artifactory
+ become: yes
+ get_url:
+ # url: "http://192.168.2.5:8081/artifactory/Ansible-Java-Sourcecode-POC/newapp-0.0.1-
+SNAPSHOT.war"
+ url: "http://192.168.2.5:8081/artifactory/Bamboo-Ansible-java/newapp-0.0.1-SNAPSHOT.war"
+ dest: "/opt/apache-tomcat-8.5.23/webapps"
+ #when: ansible_facts['os_family'] == 'RedHat
